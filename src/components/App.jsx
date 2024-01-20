@@ -168,26 +168,26 @@ const App = () => {
           Очистити дані !
         </button>
       </div>
-      <div className="sales-column">
-        <h2>Кількість продажів:</h2>
-        <p>
-          Смартфони:{' '}
-          {salesData.smartphone.withService +
-            salesData.smartphone.withoutService}
-        </p>
-        <p>
-          Ноутбуки:{' '}
-          {salesData.laptop.withService + salesData.laptop.withoutService}
-        </p>
-        <p>
-          Телевізори: {salesData.tv.withService + salesData.tv.withoutService}
-        </p>
-      </div>
-      <div className="services-column">
-        <h2>Сервіси:</h2>
-        <p>Смартфони: {salesData.service.smartphone}</p>
-        <p>Ноутбуки: {salesData.service.laptop}</p>
-        <p>Телевізори: {salesData.service.tv}</p>
+      <div className="sales-colum">
+        <div className="sales-column">
+          <h3>Техніка</h3>
+          <p>
+            Смартф:{' '}
+            {salesData.smartphone.withService +
+              salesData.smartphone.withoutService}
+          </p>
+          <p>
+            Ноут:{' '}
+            {salesData.laptop.withService + salesData.laptop.withoutService}
+          </p>
+          <p>Тв: {salesData.tv.withService + salesData.tv.withoutService}</p>
+        </div>
+        <div className="services-column">
+          <h3>Сервіс</h3>
+          <p>Смартф: {salesData.service.smartphone}</p>
+          <p>Ноут: {salesData.service.laptop}</p>
+          <p>Тв: {salesData.service.tv}</p>
+        </div>
       </div>
     </div>
   );
