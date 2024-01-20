@@ -2,6 +2,13 @@ import './App.css';
 
 import React, { useState, useEffect } from 'react';
 
+const getDefaultSalesData = () => ({
+  smartphone: { withService: 0, withoutService: 0 },
+  laptop: { withService: 0, withoutService: 0 },
+  tv: { withService: 0, withoutService: 0 },
+  service: { smartphone: 0, laptop: 0, tv: 0 },
+});
+
 const App = () => {
   const [salesData, setSalesData] = useState(() => {
     const storedData = localStorage.getItem('salesData');
@@ -29,13 +36,6 @@ const App = () => {
   useEffect(() => {
     localStorage.setItem('salesData', JSON.stringify(salesData));
   }, [salesData]);
-
-  const getDefaultSalesData = () => ({
-    smartphone: { withService: 0, withoutService: 0 },
-    laptop: { withService: 0, withoutService: 0 },
-    tv: { withService: 0, withoutService: 0 },
-    service: { smartphone: 0, laptop: 0, tv: 0 },
-  });
 
   const handleSellButtonClick = (type, service) => {
     setSalesData(prevData => {
