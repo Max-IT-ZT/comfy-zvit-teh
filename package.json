@@ -1,8 +1,8 @@
 {
-  "name": "comfy-zvit",
+  "name": "comfy-zvit-teh",
   "version": "0.1.0",
   "private": true,
-  "homepage": "https://max-it-zt.github.io/comfy-zvit/",
+  "homepage": "https://max-it-zt.github.io/comfy-zvit-teh/",
   "dependencies": {
     "@testing-library/jest-dom": "^5.16.3",
     "@testing-library/react": "^12.1.4",

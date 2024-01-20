@@ -1,111 +1,44 @@
-/* src/App.css */
 .app-container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
   text-align: center;
-  margin-top: 50px;
-}
-input[type='number']::-webkit-inner-spin-button,
-input[type='number']::-webkit-outer-spin-button {
-  -webkit-appearance: none;
-  margin: 0;
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 20px;
 }
 
-.input-container {
-  position: relative;
-  margin-bottom: 20px;
-}
-
-/* src/App.css */
-.input-label {
-  position: absolute;
-  top: 50%;
-  left: 10px;
-  transform: translateY(-50%);
-  pointer-events: none;
-  transition: all 0.3s ease-in-out;
-  font-size: 16px;
-  color: #777;
-}
-
-.input-field {
-  border-radius: 10px;
-  position: relative;
-  padding: 10px;
-  font-size: 16px;
-  width: 200px; /* Ширина інпуту, можна змінити на власний розсуд */
-  border: 1px solid #777; /* Додаємо тонку рамку */
-  outline: none; /* Забираємо виділення при фокусі */
-}
-
-.input-field:focus + .input-label,
-.input-field:not(:placeholder-shown) + .input-label {
-  top: 0;
-  font-size: 12px;
-  color: #777;
-  background-color: white; /* Робимо фон прозорим */
-  padding: 0 5px; /* Виправлення зсуву тексту при піднятті */
-}
-.button {
-  padding: 10px;
-  background-color: greenyellow;
-  border: 1px solid darkgreen;
-  border-radius: 10px;
-}
-.logo {
-  font-size: 18px;
-  font-weight: 800;
-  margin: 10px;
-}
-.salary-windows {
+.sell-buttons {
   display: flex;
-  flex-direction: row;
-  margin-bottom: 30px;
-  gap: 10px;
-  border: 1px solid black;
+  flex-wrap: wrap;
+  justify-content: space-around;
+}
+
+.sell-buttons div {
+  margin-bottom: 10px;
+}
+
+.generate-report-button {
+  margin-top: 20px;
+}
+
+.sales-summary {
+  margin-top: 20px;
+}
+
+button {
+  border-radius: 20px;
   padding: 10px;
-  border-radius: 10px;
-  background-color: gainsboro;
+  margin: 5px;
+  font-size: 14px;
 }
-.salary-window {
-  border: 1px solid black;
-  padding: 5px;
-  border-radius: 10px;
-  background-color: #c1ffaa;
-}
-.salary-name {
-  font-size: 12px;
-  font-weight: 700;
-}
-.salary-coin {
-  font-size: 12px;
-  font-weight: 800;
-}
-.cof-int {
-  width: 50px;
-  margin-right: 10px;
-  margin-bottom: 0px;
-}
-.cof {
-  display: flex;
-  justify-content: center;
 
-  align-items: center;
-  width: 80%;
+/* Стилізація кнопок */
+button[type='button-tech-with-service'] {
+  background-color: lightblue;
+}
 
-  font-size: 16px;
-  font-weight: 700;
+button[type='button-tech-without-service'] {
+  background-color: lightcoral;
 }
-.input-field:not(:placeholder-shown) + .cof-label {
-  padding: 0px 0px;
-  top: 7px;
-  font-size: 8px;
-  color: #777;
-  background-color: white;
-}
-.cof-label {
-  background-color: gainsboro;
-  color: gainsboro;
+
+button[type='button-service'] {
+  background-color: lightgreen;
 }

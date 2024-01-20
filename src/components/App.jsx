@@ -1,170 +1,181 @@
 import React, { useState, useEffect } from 'react';
-import itPlanData from './ItPlanData';
-import hsPlanData from './HsPlanData';
-import getCurrentDay from './Utils';
 import './App.css';
 
 const App = () => {
-  const [itSum, setItSum] = useState('');
-  const [itShare, setItShare] = useState('');
-  const [happySum, setHappySum] = useState('');
-  const [happyShare, setHappyShare] = useState('');
-  const [smartphones, setSmartphones] = useState('');
-  const [laptops, setLaptops] = useState('');
-  const [tvs, setTvs] = useState('');
-  const [itSalaries, setItSalaries] = useState(Array(4).fill(0));
-  const [coefficient, setCoefficient] = useState(() => {
-    return parseFloat(localStorage.getItem('coefficient')) || 6.2;
+  const [salesData, setSalesData] = useState(() => {
+    const storedData = localStorage.getItem('salesData');
+    return storedData ? JSON.parse(storedData) : getDefaultSalesData();
   });
 
   useEffect(() => {
-    const itSumValue = parseFloat(itSum);
-    if (!isNaN(itSumValue)) {
-      const itSalariesCalculation = Array(4)
-        .fill(0)
-        .map((_, index) => {
-          return (itSumValue * (coefficient / 100)) / (index + 1);
-        });
-      setItSalaries(itSalariesCalculation);
-    }
-  }, [itSum, coefficient]);
+    const now = new Date();
+    const midnight = new Date(now);
+    midnight.setHours(24, 0, 0, 0);
+
+    const timeUntilMidnight = midnight - now;
+
+    const updateDataAtMidnight = () => {
+      setSalesData(getDefaultSalesData());
+    };
+
+    const timeoutId = setTimeout(updateDataAtMidnight, timeUntilMidnight);
+
+    localStorage.setItem('midnightUpdateTimeoutId', timeoutId.toString());
+
+    return () => clearTimeout(timeoutId);
+  }, []);
 
   useEffect(() => {
-    localStorage.setItem('coefficient', coefficient.toString());
-  }, [coefficient]);
+    localStorage.setItem('salesData', JSON.stringify(salesData));
+  }, [salesData]);
 
-  const handleCoefficientChange = e => {
-    setCoefficient(parseFloat(e.target.value) || 0);
+  const getDefaultSalesData = () => ({
+    smartphone: { withService: 0, withoutService: 0 },
+    laptop: { withService: 0, withoutService: 0 },
+    tv: { withService: 0, withoutService: 0 },
+    service: { smartphone: 0, laptop: 0, tv: 0 },
+  });
+
+  const handleSellButtonClick = (type, service) => {
+    setSalesData(prevData => {
+      const updatedData = { ...prevData };
+      updatedData[type][service]++;
+      if (service === 'withService') {
+        updatedData.service[type]++;
+      }
+      return updatedData;
+    });
   };
 
-  const generateMessage = () => {
-    const currentDay = getCurrentDay();
-    const itFact = parseInt(itSum, 10);
-    const itPlan = itPlanData[currentDay - 1]?.plan || 0;
-    const itDeviation = ((itFact - itPlan) / itPlan) * 100;
-    const happyFact = parseInt(happySum, 10);
-    const happyPlan = hsPlanData[currentDay - 1]?.plan || 0;
-    const happyDeviation = ((happyFact - happyPlan) / happyPlan) * 100;
-    const smartphonesCount = parseInt(smartphones, 10);
-    const laptopsCount = parseInt(laptops, 10);
-    const tvsCount = parseInt(tvs, 10);
-    const isAnyDeviceSpecified = smartphonesCount || laptopsCount || tvsCount;
-    let devicesMessage = '';
-    if (isAnyDeviceSpecified) {
-      devicesMessage = `
-    Смарт ${smartphonesCount || '0'}
-    Ноут ${laptopsCount || '0'}
-    ТВ ${tvsCount || '0'}`;
-    }
-    return `Житомир
-    ІТ ${itPlan}/${itFact} (${itDeviation.toFixed(1)}%)
-    Часта: ${itShare}%
-    ХС ${happyPlan}/${happyFact} (${happyDeviation.toFixed(1)}%)
-    Частка: ${happyShare}%${devicesMessage}`;
+  const calculatePercentage = (withService, total) => {
+    return total !== 0 ? ((withService / total) * 100).toFixed(2) : 0;
   };
 
-  const handleSubmit = () => {
-    const message = generateMessage();
-    alert(message);
+  const handleGenerateReport = () => {
+    const totalSmartphones =
+      salesData.smartphone.withService + salesData.smartphone.withoutService;
+    const totalLaptops =
+      salesData.laptop.withService + salesData.laptop.withoutService;
+    const totalTvs = salesData.tv.withService + salesData.tv.withoutService;
+
+    const reportMessage = `
+      Смартфони: ${
+        salesData.smartphone.withService + salesData.smartphone.withoutService
+      } продано, 
+      ${salesData.service.smartphone} з сервісом (${calculatePercentage(
+      salesData.service.smartphone,
+      totalSmartphones
+    )}%)
+      Ноутбуки: ${
+        salesData.laptop.withService + salesData.laptop.withoutService
+      } продано, 
+      ${salesData.service.laptop} з сервісом (${calculatePercentage(
+      salesData.service.laptop,
+      totalLaptops
+    )}%)
+      Телевізори: ${
+        salesData.tv.withService + salesData.tv.withoutService
+      } продано, 
+      ${salesData.service.tv} з сервісом (${calculatePercentage(
+      salesData.service.tv,
+      totalTvs
+    )}%)
+    `;
+    alert(`Звіт сформовано!\n${reportMessage}`);
   };
 
   return (
     <div className="app-container">
-      <div className="logo">Заробітна плата</div>
-      <div className="input-container">
-        <input
-          type="number"
-          step="0.01"
-          pattern="\d+(\.\d{1,2})?"
-          className="input-field "
-          placeholder=""
-          value={coefficient}
-          onChange={handleCoefficientChange}
-        />
-        <label className="input-label">Коефіцієнт</label>
+      <div className="sell-buttons">
+        <div>
+          <button
+            type="button-tech-with-service"
+            onClick={() => handleSellButtonClick('smartphone', 'withService')}
+          >
+            Смартфон з послугою
+          </button>
+          <button
+            type="button-tech-without-service"
+            onClick={() =>
+              handleSellButtonClick('smartphone', 'withoutService')
+            }
+          >
+            Смартфон без послуги
+          </button>
+        </div>
+        <div>
+          <button
+            type="button-tech-with-service"
+            onClick={() => handleSellButtonClick('laptop', 'withService')}
+          >
+            Ноутбук з послугою
+          </button>
+          <button
+            type="button-tech-without-service"
+            onClick={() => handleSellButtonClick('laptop', 'withoutService')}
+          >
+            Ноутбук без послуги
+          </button>
+        </div>
+        <div>
+          <button
+            type="button-tech-with-service"
+            onClick={() => handleSellButtonClick('tv', 'withService')}
+          >
+            Телевізор з послугою
+          </button>
+          <button
+            type="button-tech-without-service"
+            onClick={() => handleSellButtonClick('tv', 'withoutService')}
+          >
+            Телевізор без послуги
+          </button>
+        </div>
+        <div>
+          <button
+            type="button-service"
+            onClick={() => handleSellButtonClick('service', 'smartphone')}
+          >
+            Сервіс для смартфона
+          </button>
+          <button
+            type="button-service"
+            onClick={() => handleSellButtonClick('service', 'laptop')}
+          >
+            Сервіс для ноутбука
+          </button>
+          <button
+            type="button-service"
+            onClick={() => handleSellButtonClick('service', 'tv')}
+          >
+            Сервіс для телевізора
+          </button>
+        </div>
       </div>
-      <div className="salary-windows">
-        {itSalaries.map((salary, index) => (
-          <div key={index} className="salary-window">
-            <h3 className="salary-name">{`${index + 1}-Іт`}</h3>
-            <p className="salary-coin">{`${salary.toFixed()} грн.`}</p>
-          </div>
-        ))}
+      <div className="generate-report-button">
+        <button onClick={handleGenerateReport}>Сформувати звіт</button>
       </div>
-      <div className="input-container">
-        <input
-          type="tel"
-          className="input-field"
-          placeholder=" "
-          value={itSum}
-          onChange={e => setItSum(e.target.value)}
-        />
-        <label className="input-label">Сума за ІТ</label>
+      <div className="sales-summary">
+        <h2>Кількість продажів:</h2>
+        <p>
+          Смартфони:{' '}
+          {salesData.smartphone.withService +
+            salesData.smartphone.withoutService}
+        </p>
+        <p>
+          Ноутбуки:{' '}
+          {salesData.laptop.withService + salesData.laptop.withoutService}
+        </p>
+        <p>
+          Телевізори: {salesData.tv.withService + salesData.tv.withoutService}
+        </p>
+        <p>
+          Сервіси:{' '}
+          {salesData.service.smartphone +
+            salesData.service.laptop +
+            salesData.service.tv}
+        </p>
       </div>
-      <div className="input-container">
-        <input
-          type="text"
-          className="input-field"
-          placeholder=" "
-          value={itShare}
-          onChange={e => setItShare(e.target.value)}
-        />
-        <label className="input-label">Доля за ІТ (%)</label>
-      </div>
-      <div className="input-container">
-        <input
-          type="tel"
-          className="input-field"
-          placeholder=" "
-          value={happySum}
-          onChange={e => setHappySum(e.target.value)}
-        />
-        <label className="input-label">Сума за Хеппі</label>
-      </div>
-      <div className="input-container">
-        <input
-          type="text"
-          className="input-field"
-          placeholder=" "
-          value={happyShare}
-          onChange={e => setHappyShare(e.target.value)}
-        />
-        <label className="input-label">Доля за Хеппі (%)</label>
-      </div>
-      <div className="input-container">
-        <input
-          type="tel"
-          className="input-field"
-          placeholder=" "
-          value={smartphones}
-          onChange={e => setSmartphones(e.target.value)}
-        />
-        <label className="input-label">Кількість смартфонів</label>
-      </div>
-      <div className="input-container">
-        <input
-          type="tel"
-          className="input-field"
-          placeholder=" "
-          value={laptops}
-          onChange={e => setLaptops(e.target.value)}
-        />
-        <label className="input-label">Кількість ноутбуків</label>
-      </div>
-      <div className="input-container">
-        <input
-          type="tel"
-          className="input-field"
-          placeholder=" "
-          value={tvs}
-          onChange={e => setTvs(e.target.value)}
-        />
-        <label className="input-label">Кількість Телевізорів</label>
-      </div>
-
-      <button className="button" onClick={handleSubmit}>
-        Відправити
-      </button>
     </div>
   );
 };
