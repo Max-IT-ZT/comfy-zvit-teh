@@ -77,6 +77,16 @@ const App = () => {
     alert(`Звіт сформовано!\n${reportMessage}`);
   };
 
+  const handleClearData = () => {
+    const confirmation = window.confirm(
+      'Ви впевнені, що хочете очистити всі дані?'
+    );
+    if (confirmation) {
+      localStorage.clear();
+      setSalesData(getDefaultSalesData());
+    }
+  };
+
   return (
     <div className="app-container">
       <div className="btn-sms">
@@ -152,6 +162,11 @@ const App = () => {
       </div>
       <div className="generate-report-button">
         <button onClick={handleGenerateReport}>Сформувати звіт</button>
+      </div>
+      <div className="clear-data-button">
+        <button type="button-clear" onClick={handleClearData}>
+          Очистити дані !
+        </button>
       </div>
       <div className="sales-column">
         <h2>Кількість продажів:</h2>

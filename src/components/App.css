@@ -46,3 +46,9 @@ button[type='button-service'] {
   background-color: lightgreen;
   width: 200px;
 }
+button[type='button-clear'] {
+  background-color: red;
+  width: 150px;
+  padding: 5px;
+  font-weight: 700;
+}
