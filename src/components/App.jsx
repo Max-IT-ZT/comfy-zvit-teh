@@ -1,5 +1,4 @@
 import './App.css';
-
 import React, { useState, useEffect } from 'react';
 
 const getDefaultSalesData = () => ({
@@ -60,27 +59,16 @@ const App = () => {
     const totalTvs = salesData.tv.withService + salesData.tv.withoutService;
 
     const reportMessage = `
-      Смартфони: ${
-        salesData.smartphone.withService + salesData.smartphone.withoutService
-      } продано, 
-      ${salesData.service.smartphone} з сервісом (${calculatePercentage(
-      salesData.service.smartphone,
-      totalSmartphones
-    )}%)
-      Ноутбуки: ${
-        salesData.laptop.withService + salesData.laptop.withoutService
-      } продано, 
-      ${salesData.service.laptop} з сервісом (${calculatePercentage(
-      salesData.service.laptop,
-      totalLaptops
-    )}%)
-      Телевізори: ${
-        salesData.tv.withService + salesData.tv.withoutService
-      } продано, 
-      ${salesData.service.tv} з сервісом (${calculatePercentage(
-      salesData.service.tv,
-      totalTvs
-    )}%)
+      Кількість продажів:
+      Смартфони: ${totalSmartphones}, Сервіси: ${
+      salesData.service.smartphone
+    } (${calculatePercentage(salesData.service.smartphone, totalSmartphones)}%)
+      Ноутбуки: ${totalLaptops}, Сервіси: ${
+      salesData.service.laptop
+    } (${calculatePercentage(salesData.service.laptop, totalLaptops)}%)
+      Телевізори: ${totalTvs}, Сервіси: ${
+      salesData.service.tv
+    } (${calculatePercentage(salesData.service.tv, totalTvs)}%)
     `;
     alert(`Звіт сформовано!\n${reportMessage}`);
   };
@@ -156,7 +144,7 @@ const App = () => {
       <div className="generate-report-button">
         <button onClick={handleGenerateReport}>Сформувати звіт</button>
       </div>
-      <div className="sales-summary">
+      <div className="sales-column">
         <h2>Кількість продажів:</h2>
         <p>
           Смартфони:{' '}
@@ -170,12 +158,12 @@ const App = () => {
         <p>
           Телевізори: {salesData.tv.withService + salesData.tv.withoutService}
         </p>
-        <p>
-          Сервіси:{' '}
-          {salesData.service.smartphone +
-            salesData.service.laptop +
-            salesData.service.tv}
-        </p>
+      </div>
+      <div className="services-column">
+        <h2>Сервіси:</h2>
+        <p>Смартфони: {salesData.service.smartphone}</p>
+        <p>Ноутбуки: {salesData.service.laptop}</p>
+        <p>Телевізори: {salesData.service.tv}</p>
       </div>
     </div>
   );

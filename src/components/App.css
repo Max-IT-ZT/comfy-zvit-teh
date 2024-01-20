@@ -34,12 +34,15 @@ button {
 /* Стилізація кнопок */
 button[type='button-tech-with-service'] {
   background-color: lightblue;
+  width: 200px;
 }
 
 button[type='button-tech-without-service'] {
   background-color: lightcoral;
+  width: 200px;
 }
 
 button[type='button-service'] {
   background-color: lightgreen;
+  width: 200px;
 }
