@@ -68,7 +68,7 @@ button[type='button-clear'] {
   flex-direction: column;
   align-items: start;
   margin-right: 30px;
-  border: 1px solid black;
+  border: 2px solid black;
   border-radius: 20px;
   background-color: lemonchiffon;
 }
@@ -78,7 +78,7 @@ button[type='button-clear'] {
   flex-direction: column;
   align-items: start;
 
-  border: 1px solid black;
+  border: 2px solid black;
   border-radius: 20px;
   background-color: lemonchiffon;
 }
