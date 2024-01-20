@@ -1,13 +1,13 @@
 {
   "files": {
     "main.css": "/comfy-zvit-teh/static/css/main.eb50df78.css",
-    "main.js": "/comfy-zvit-teh/static/js/main.91152bc0.js",
+    "main.js": "/comfy-zvit-teh/static/js/main.a872dad9.js",
     "index.html": "/comfy-zvit-teh/index.html",
     "main.eb50df78.css.map": "/comfy-zvit-teh/static/css/main.eb50df78.css.map",
-    "main.91152bc0.js.map": "/comfy-zvit-teh/static/js/main.91152bc0.js.map"
+    "main.a872dad9.js.map": "/comfy-zvit-teh/static/js/main.a872dad9.js.map"
   },
   "entrypoints": [
     "static/css/main.eb50df78.css",
-    "static/js/main.91152bc0.js"
+    "static/js/main.a872dad9.js"
   ]
 }
