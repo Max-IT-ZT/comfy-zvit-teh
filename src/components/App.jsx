@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import './App.css';
+import '../components/App.css';
 
 const App = () => {
   const [salesData, setSalesData] = useState(() => {
