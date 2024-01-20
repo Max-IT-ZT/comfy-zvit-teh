@@ -51,30 +51,39 @@ const App = () => {
     return total !== 0 ? ((withService / total) * 100).toFixed(2) : 0;
   };
 
-  const handleGenerateReport = () => {
+  const generateReportMessage = () => {
     const totalSmartphones =
       salesData.smartphone.withService + salesData.smartphone.withoutService;
     const totalLaptops =
       salesData.laptop.withService + salesData.laptop.withoutService;
     const totalTvs = salesData.tv.withService + salesData.tv.withoutService;
 
-    const reportMessage = `
+    return `
       Кількість продажів:
-      Смартфони: ${totalSmartphones}, Сервіси: ${
-      salesData.service.smartphone
-    } (${calculatePercentage(salesData.service.smartphone, totalSmartphones)}%)
-      Ноутбуки: ${totalLaptops}, Сервіси: ${
-      salesData.service.laptop
-    } (${calculatePercentage(salesData.service.laptop, totalLaptops)}%)
-      Телевізори: ${totalTvs}, Сервіси: ${
-      salesData.service.tv
-    } (${calculatePercentage(salesData.service.tv, totalTvs)}%)
+      Смартфони: ${calculatePercentage(
+        salesData.smartphone.withService,
+        totalSmartphones
+      )}%
+      Ноутбуки: ${calculatePercentage(
+        salesData.laptop.withService,
+        totalLaptops
+      )}%
+      Телевізори: ${calculatePercentage(salesData.tv.withService, totalTvs)}%
     `;
+  };
+
+  const handleGenerateReport = () => {
+    const reportMessage = generateReportMessage();
     alert(`Звіт сформовано!\n${reportMessage}`);
   };
 
   return (
     <div className="app-container">
+      <div className="btn-sms">
+        <button>
+          <a href="https://max-it-zt.github.io/comfy-zvit/">Відправити звіт</a>
+        </button>
+      </div>
       <div className="sell-buttons">
         <div>
           <button
