@@ -81,7 +81,7 @@ const App = () => {
     <div className="app-container">
       <div className="btn-sms">
         <button>
-          <a href="https://max-it-zt.github.io/comfy-zvit/">Відправити звіт</a>
+          <a href="https://max-it-zt.github.io/comfy-zvit/">Відправити смс</a>
         </button>
       </div>
       <div className="sell-buttons">
