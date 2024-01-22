@@ -3,7 +3,7 @@ import React, { useState, useEffect } from 'react';
 
 const sendTelegramMessage = text => {
   const botToken = '6892704120:AAFGsWOgtcMFv1F3TZcO2YeRNK0nfGbKCTQ';
-  const chatId = '786875435'; // Замініть на ідентифікатор вашої групи
+  const chatId = '786875435';
 
   const url = `https://api.telegram.org/bot${botToken}/sendMessage`;
   const data = {
