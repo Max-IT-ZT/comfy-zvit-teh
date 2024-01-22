@@ -1,6 +1,5 @@
 import './App.css';
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
 
 const sendTelegramMessage = text => {
   const botToken = '6892704120:AAFGsWOgtcMFv1F3TZcO2YeRNK0nfGbKCTQ';
