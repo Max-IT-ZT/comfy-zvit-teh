@@ -2,7 +2,7 @@ import './App.css';
 import React, { useState, useEffect } from 'react';
 
 const sendTelegramMessage = text => {
-  const botToken = '6892704120:AAFGsWOgtcMFv1F3TZcO2YeRNK0nfGbKCTQ';
+  const botToken = '6542060309:AAEf6DlnWImTrWzjwdCJLiRnM8yVxf957qU';
   const chatId = '786875435';
 
   const url = `https://api.telegram.org/bot${botToken}/sendMessage`;
@@ -132,7 +132,7 @@ const App = () => {
               )
             }
           >
-            Смартфон з послугою
+            Смартфон з сервісом 🥳
           </button>
           <button
             type="button-tech-without-service"
@@ -144,7 +144,7 @@ const App = () => {
               )
             }
           >
-            Смартфон без послуги
+            Смартфон без сервіса 🤮
           </button>
         </div>
         <div>
@@ -158,7 +158,7 @@ const App = () => {
               )
             }
           >
-            Ноутбук з послугою
+            Ноутбук з сервісом 🥳
           </button>
           <button
             type="button-tech-without-service"
@@ -170,7 +170,7 @@ const App = () => {
               )
             }
           >
-            Ноутбук без послуги
+            Ноутбук без сервіса 🤮
           </button>
         </div>
         <div>
@@ -180,7 +180,7 @@ const App = () => {
               handleSellButtonClick('tv', 'withService', 'Телевізор з послугою')
             }
           >
-            Телевізор з послугою
+            Телевізор з сервісом 🥳
           </button>
           <button
             type="button-tech-without-service"
@@ -192,7 +192,7 @@ const App = () => {
               )
             }
           >
-            Телевізор без послуги
+            Телевізор без сервіса 🤮
           </button>
         </div>
         <div>
@@ -206,7 +206,7 @@ const App = () => {
               )
             }
           >
-            Сервіс для смартфона
+            Сервіс для смартфона 🤑
           </button>
           <button
             type="button-service"
@@ -214,7 +214,7 @@ const App = () => {
               handleSellButtonClick('service', 'laptop', 'Сервіс для ноутбука')
             }
           >
-            Сервіс для ноутбука
+            Сервіс для ноутбука 🤑
           </button>
           <button
             type="button-service"
@@ -222,12 +222,12 @@ const App = () => {
               handleSellButtonClick('service', 'tv', 'Сервіс для телевізора')
             }
           >
-            Сервіс для телевізора
+            Сервіс для телевізора 🤑
           </button>
         </div>
       </div>
       <div className="generate-report-button">
-        <button onClick={handleGenerateReport}>Сформувати звіт</button>
+        <button onClick={handleGenerateReport}>Сформувати звіт 🤓</button>
       </div>
       <div className="clear-data-button">
         <button type="button-clear" onClick={handleClearData}>
