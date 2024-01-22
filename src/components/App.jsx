@@ -1,5 +1,28 @@
 import './App.css';
 import React, { useState, useEffect } from 'react';
+import axios from 'axios';
+
+const sendTelegramMessage = text => {
+  const botToken = '6892704120:AAFGsWOgtcMFv1F3TZcO2YeRNK0nfGbKCTQ';
+  const chatId = '786875435'; // Замініть на ідентифікатор вашої групи
+
+  const url = `https://api.telegram.org/bot${botToken}/sendMessage`;
+  const data = {
+    chat_id: chatId,
+    text: text,
+  };
+
+  fetch(url, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(data),
+  })
+    .then(response => response.json())
+    .then(data => console.log('Telegram API response:', data))
+    .catch(error => console.error('Error sending Telegram message:', error));
+};
 
 const getDefaultSalesData = () => ({
   smartphone: { withService: 0, withoutService: 0 },
@@ -36,7 +59,10 @@ const App = () => {
     localStorage.setItem('salesData', JSON.stringify(salesData));
   }, [salesData]);
 
-  const handleSellButtonClick = (type, service) => {
+  const handleSellButtonClick = (type, service, buttonText) => {
+    const message = buttonText;
+    sendTelegramMessage(message);
+
     setSalesData(prevData => {
       const updatedData = { ...prevData };
       updatedData[type][service]++;
@@ -58,17 +84,18 @@ const App = () => {
       salesData.laptop.withService + salesData.laptop.withoutService;
     const totalTvs = salesData.tv.withService + salesData.tv.withoutService;
 
+    const totalServicesSmartphone = salesData.service.smartphone;
+    const totalServicesLaptop = salesData.service.laptop;
+    const totalServicesTv = salesData.service.tv;
+
     return `
-      Кількість продажів:
+      Проникнення сервісів:
       Смартфони: ${calculatePercentage(
-        salesData.smartphone.withService,
+        totalServicesSmartphone,
         totalSmartphones
-      )}%
-      Ноутбуки: ${calculatePercentage(
-        salesData.laptop.withService,
-        totalLaptops
-      )}%
-      Телевізори: ${calculatePercentage(salesData.tv.withService, totalTvs)}%
+      )}% 
+      Ноутбуки: ${calculatePercentage(totalServicesLaptop, totalLaptops)}%
+      Телевізори: ${calculatePercentage(totalServicesTv, totalTvs)}% 
     `;
   };
 
@@ -98,14 +125,24 @@ const App = () => {
         <div>
           <button
             type="button-tech-with-service"
-            onClick={() => handleSellButtonClick('smartphone', 'withService')}
+            onClick={() =>
+              handleSellButtonClick(
+                'smartphone',
+                'withService',
+                'Смартфон з послугою'
+              )
+            }
           >
             Смартфон з послугою
           </button>
           <button
             type="button-tech-without-service"
             onClick={() =>
-              handleSellButtonClick('smartphone', 'withoutService')
+              handleSellButtonClick(
+                'smartphone',
+                'withoutService',
+                'Смартфон без послуги'
+              )
             }
           >
             Смартфон без послуги
@@ -114,13 +151,25 @@ const App = () => {
         <div>
           <button
             type="button-tech-with-service"
-            onClick={() => handleSellButtonClick('laptop', 'withService')}
+            onClick={() =>
+              handleSellButtonClick(
+                'laptop',
+                'withService',
+                'Ноутбук з послугою'
+              )
+            }
           >
             Ноутбук з послугою
           </button>
           <button
             type="button-tech-without-service"
-            onClick={() => handleSellButtonClick('laptop', 'withoutService')}
+            onClick={() =>
+              handleSellButtonClick(
+                'laptop',
+                'withoutService',
+                'Ноутбук без послуги'
+              )
+            }
           >
             Ноутбук без послуги
           </button>
@@ -128,13 +177,21 @@ const App = () => {
         <div>
           <button
             type="button-tech-with-service"
-            onClick={() => handleSellButtonClick('tv', 'withService')}
+            onClick={() =>
+              handleSellButtonClick('tv', 'withService', 'Телевізор з послугою')
+            }
           >
             Телевізор з послугою
           </button>
           <button
             type="button-tech-without-service"
-            onClick={() => handleSellButtonClick('tv', 'withoutService')}
+            onClick={() =>
+              handleSellButtonClick(
+                'tv',
+                'withoutService',
+                'Телевізор без послуги'
+              )
+            }
           >
             Телевізор без послуги
           </button>
@@ -142,19 +199,29 @@ const App = () => {
         <div>
           <button
             type="button-service"
-            onClick={() => handleSellButtonClick('service', 'smartphone')}
+            onClick={() =>
+              handleSellButtonClick(
+                'service',
+                'smartphone',
+                'Сервіс для смартфона'
+              )
+            }
           >
             Сервіс для смартфона
           </button>
           <button
             type="button-service"
-            onClick={() => handleSellButtonClick('service', 'laptop')}
+            onClick={() =>
+              handleSellButtonClick('service', 'laptop', 'Сервіс для ноутбука')
+            }
           >
             Сервіс для ноутбука
           </button>
           <button
             type="button-service"
-            onClick={() => handleSellButtonClick('service', 'tv')}
+            onClick={() =>
+              handleSellButtonClick('service', 'tv', 'Сервіс для телевізора')
+            }
           >
             Сервіс для телевізора
           </button>
